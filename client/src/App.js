@@ -2,6 +2,9 @@ import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import WorldMap from './components/WorldMap';
+import Login from './components/Login';
+
 // Custom components and page loads 
 
 // Construct our main GraphQL API endpoint
@@ -37,14 +40,15 @@ function App() {
         <div className="flex-column justify-flex-start min-100-vh">
           <div className="container">
             <Routes>
-              {/* <Route
-                path="/"
-                element={<Start />}
-              />
               <Route
-                path="/login"
+                path="/"
                 element={<Login />}
               />
+              <Route
+                path="/world"
+                element={<WorldMap />}
+              />
+              {/* 
               <Route
                 path="/signup"
                 element={<Signup />}

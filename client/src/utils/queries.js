@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client';
 
-export const GET_USER_ALL = gql`
+export const GET_MAP = gql`
 query Query {
     getUser {
-      name
+      worldMap
+      unlockedBoxes
     }
   }
 `;

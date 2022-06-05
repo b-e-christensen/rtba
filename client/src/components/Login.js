@@ -1,71 +1,94 @@
-import React from "react";
-import '../index.css';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
 
-export default function Login() {
-    function toggleSignup() {
-        console.log('sign up toggled')
-        document.getElementById("login-toggle").style.backgroundColor = "#fff";
-        document.getElementById("login-toggle").style.color = "#222";
-        document.getElementById("signup-toggle").style.backgroundColor = "#57b846";
-        document.getElementById("signup-toggle").style.color = "#fff";
-        document.getElementById("login-form").style.display = "none";
-        document.getElementById("signup-form").style.display = "block";
+import Auth from '../utils/auth';
+
+const Login = (props) => {
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  // update state based on form input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // submit form
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    console.log(formState);
+    try {
+      const { data } = await login({
+        variables: { ...formState },
+      });
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
     }
 
-    function toggleLogin() {
-        console.log('login toggled')
-        document.getElementById("login-toggle").style.backgroundColor = "#57B846";
-        document.getElementById("login-toggle").style.color = "#fff";
-        document.getElementById("signup-toggle").style.backgroundColor = "#fff";
-        document.getElementById("signup-toggle").style.color = "#222";
-        document.getElementById("signup-form").style.display = "none";
-        document.getElementById("login-form").style.display = "block";
-    }
+    // clear form values
+    setFormState({
+      email: '',
+      password: '',
+    });
+  };
 
-    function login() {
-        console.log('this is where you would login')
-    }
+  return (
+    <main className="flex-row justify-center mb-4">
+      <div className="col-12 col-lg-10">
+        <div className="card">
+          <h4 className="card-header bg-dark text-light p-2">Login</h4>
+          <div className="card-body">
+            {data ? (
+              <p>
+                Success! You may now head{' '}
+                <Link to="/world">back to the homepage.</Link>
+              </p>
+            ) : (
+              <form onSubmit={handleFormSubmit}>
+                <input
+                  className="form-input"
+                  placeholder="Your email"
+                  name="email"
+                  type="email"
+                  value={formState.email}
+                  onChange={handleChange}
+                />
+                <input
+                  className="form-input"
+                  placeholder="******"
+                  name="password"
+                  type="password"
+                  value={formState.password}
+                  onChange={handleChange}
+                />
+                <button
+                  className="btn btn-block btn-info"
+                  style={{ cursor: 'pointer' }}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </form>
+            )}
 
-    function signup() {
-        console.log('this is where you would signup')
-    }
-
-    const styles = {
-        header: {
-            textAlign: 'center'
-        }
-    }
-
-
-    return (
-
-        <div>
-            <h1 style={styles.header}>RTBA</h1>
-            <div className="form-modal">
-
-                <div className="form-toggle">
-                    <button id="login-toggle" onClick={() => toggleLogin()}>log in</button>
-                    <button id="signup-toggle" onClick={() => toggleSignup()}>sign up</button>
-                </div>
-
-                <div id="login-form">
-                    <form>
-                        <input type="text" placeholder="Enter email" />
-                        <input type="password" placeholder="Enter password" />
-                        <button type="button" className="btn login" onClick={() => login()}>login</button>
-                    </form>
-                </div>
-
-                <div id="signup-form">
-                    <form>
-                        <input type="email" placeholder="Enter your email" />
-                        <input type="text" placeholder="Choose username" />
-                        <input type="password" placeholder="Create password" />
-                        <button type="button" className="btn signup" onClick={() => signup()}>create account</button>
-                    </form>
-                </div>
-
-            </div>
+            {error && (
+              <div className="my-3 p-3 bg-danger text-white">
+                {error.message}
+              </div>
+            )}
+          </div>
         </div>
-    )
-}
+      </div>
+    </main>
+  );
+};
+
+export default Login;

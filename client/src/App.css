@@ -1,0 +1,62 @@
+.world-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+  cursor: grab;
+  overflow: auto;
+  margin: auto;
+}
+
+.world-box {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  margin: 0px;
+  height: '200px';
+  width: '200px';
+}
+
+.hidden-box {
+  visibility: hidden;
+}
+
+.container {
+  height: calc(100vh - 20px);
+  width: 100%;
+}
+
+.you-are-here {
+  display: block;
+  height: 50px;
+  margin-top: 75px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.summer {
+  background-image: url(./images/summer.jpg);
+  background-size: 'cover';
+  height: '200px';
+  width: '200px';
+}
+
+.fall {
+  background-image: url(./images/fall.jpg);
+  background-size: 'cover';
+  height: '200px';
+  width: '200px';
+}
+
+.winter {
+  background-image: url(./images/winter.jpg);
+  background-size: 'cover';
+  height: '200px';
+  width: '200px';
+}
+
+.spring {
+  background-image: url(./images/spring.jpg);
+  background-size: 'cover';
+  height: '200px';
+  width: '200px';
+}

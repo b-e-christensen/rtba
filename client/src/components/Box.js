@@ -41,10 +41,10 @@ const doNothing = () => {
     console.log('do nothing')
 }
 
-function Box({ index, hidden, current }) {
+function Box({ index, hidden, current, background }) {
     
     return(
-        <div value={index} key={index} className={hidden ? "world-box hidden-box" : "world-box"} style={styles[Math.floor(Math.random() * 4)]} onClick={current ? options : doNothing}>
+        <div value={index} key={index} className={hidden ? "world-box hidden-box" : "world-box"} style={styles[background]} onClick={current ? options : doNothing}>
         {current ? <img src={marker} className="you-are-here" alt="red pin"></img>: <p></p>}
         </div>
     )

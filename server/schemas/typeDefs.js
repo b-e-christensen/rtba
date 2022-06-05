@@ -6,6 +6,8 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    worldMap: [String]
+    unlockedBoxes: [String]
   }
 
   type Auth {
